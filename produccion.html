@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DECORA INTERIORES - Gestión de Producción</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.0/lucide.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;600;700&display=swap");
+      body {
+        font-family: "Urbanist", sans-serif;
+        background-color: #f8fafc;
+      }
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .card {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        border: 1px solid #e2e8f0;
+      }
+      .nav-btn.active {
+        background-color: #0f172a;
+        color: white;
+      }
+    </style>
+  </head>
+  <body class="flex h-screen overflow-hidden">
+    <!-- SIDEBAR -->
+    <aside class="w-72 bg-slate-900 text-slate-300 flex flex-col shrink-0">
+      <div class="p-6 border-b border-slate-800 flex items-center gap-3">
+        <div
+          class="w-10 h-10 bg-lime-400 rounded-lg flex items-center justify-center text-slate-900 shadow-lg shadow-lime-400/20"
+        >
+          <i data-lucide="factory"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-white text-lg leading-none">DECORA</h1>
+          <p
+            class="text-[10px] text-lime-400 font-bold uppercase tracking-widest mt-1"
+          >
+            Producción & Costos
+          </p>
+        </div>
+      </div>
+
+      <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+        <button
+          onclick="showTab('calc')"
+          class="nav-btn active w-full flex items-center gap-3 p-3 rounded-xl transition text-sm font-semibold"
+        >
+          <i data-lucide="calculator" class="w-5"></i> Calculadora de Costos
+        </button>
+        <button
+          onclick="showTab('fichas')"
+          class="nav-btn w-full flex items-center gap-3 p-3 rounded-xl transition text-sm font-semibold"
+        >
+          <i data-lucide="file-text" class="w-5"></i> Fichas Técnicas
+        </button>
+        <button
+          onclick="showTab('operarios')"
+          class="nav-btn w-full flex items-center gap-3 p-3 rounded-xl transition text-sm font-semibold"
+        >
+          <i data-lucide="users" class="w-5"></i> Operarios y Rendimiento
+        </button>
+        <button
+          onclick="showTab('produccion')"
+          class="nav-btn w-full flex items-center gap-3 p-3 rounded-xl transition text-sm font-semibold"
+        >
+          <i data-lucide="layout-grid" class="w-5"></i> Gestión de Taller
+        </button>
+        <button
+          onclick="showTab('monitoreo')"
+          class="nav-btn w-full flex items-center gap-3 p-3 rounded-xl transition text-sm font-semibold"
+        >
+          <i data-lucide="activity" class="w-5"></i> Monitoreo de Pedidos
+        </button>
+        <button
+          onclick="showTab('calidad')"
+          class="nav-btn w-full flex items-center gap-3 p-3 rounded-xl transition text-sm font-semibold"
+        >
+          <i data-lucide="shield-check" class="w-5"></i> Control de Calidad
+        </button>
+        <button
+          onclick="showTab('informes')"
+          class="nav-btn w-full flex items-center gap-3 p-3 rounded-xl transition text-sm font-semibold"
+        >
+          <i data-lucide="pie-chart" class="w-5"></i> Informes y Análisis
+        </button>
+      </nav>
+
+      <div class="p-6 border-t border-slate-800 bg-slate-950/50">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold text-white"
+          >
+            AD
+          </div>
+          <div class="flex-1">
+            <p class="text-xs font-bold text-white">Administrador</p>
+            <p class="text-[10px] text-slate-500 uppercase font-bold">
+              Taller Central
+            </p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <main class="flex-1 flex flex-col overflow-hidden bg-slate-50">
+      <!-- HEADER -->
+      <header
+        class="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between"
+      >
+        <h2 id="tab-title" class="text-2xl font-bold text-slate-800">
+          Calculadora de Precios y Costos
+        </h2>
+        <div class="flex gap-3">
+          <div class="relative">
+            <i
+              data-lucide="search"
+              class="w-4 absolute left-3 top-3 text-slate-400"
+            ></i>
+            <input
+              type="text"
+              placeholder="Buscar pedido..."
+              class="pl-10 pr-4 py-2 bg-slate-100 border-none rounded-xl text-sm focus:ring-2 focus:ring-lime-400 outline-none w-64"
+            />
+          </div>
+          <button
+            class="bg-slate-900 text-white p-2.5 rounded-xl hover:bg-slate-800 transition"
+          >
+            <i data-lucide="bell" class="w-5"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <div class="flex-1 overflow-y-auto p-8">
+        <!-- CALCULADORA DE COSTOS -->
+        <section id="calc" class="tab-content active">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 card p-8">
+              <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                <i data-lucide="form-input" class="text-lime-500"></i>
+                Configuración del Pedido
+              </h3>
+              <div class="grid grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label class="text-xs font-bold text-slate-500 uppercase"
+                    >Modelo de Cortina</label
+                  >
+                  <select
+                    id="calc-modelo"
+                    onchange="calculateCost()"
+                    class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-lime-500"
+                  >
+                    <option value="paris">Cortina Paris (Doble)</option>
+                    <option value="roller">Persiana Roller Duo</option>
+                    <option value="blackout">Blackout Automatizado</option>
+                  </select>
+                </div>
+                <div class="space-y-2">
+                  <label class="text-xs font-bold text-slate-500 uppercase"
+                    >Tipo de Tejido</label
+                  >
+                  <select
+                    id="calc-tejido"
+                    onchange="calculateCost()"
+                    class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-lime-500"
+                  >
+                    <option value="35">Lino Premium (Bs. 35/m²)</option>
+                    <option value="20" selected>Poliéster (Bs. 20/m²)</option>
+                    <option value="55">Vinilo Térmico (Bs. 55/m²)</option>
+                  </select>
+                </div>
+                <div class="space-y-2">
+                  <label class="text-xs font-bold text-slate-500 uppercase"
+                    >Ancho (metros)</label
+                  >
+                  <input
+                    type="number"
+                    id="calc-ancho"
+                    value="2.5"
+                    step="0.1"
+                    oninput="calculateCost()"
+                    class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-lime-500"
+                  />
+                </div>
+                <div class="space-y-2">
+                  <label class="text-xs font-bold text-slate-500 uppercase"
+                    >Alto (metros)</label
+                  >
+                  <input
+                    type="number"
+                    id="calc-alto"
+                    value="2.0"
+                    step="0.1"
+                    oninput="calculateCost()"
+                    class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-lime-500"
+                  />
+                </div>
+              </div>
+
+              <div class="mt-8 p-6 bg-slate-900 rounded-2xl text-white">
+                <h4
+                  class="text-xs font-black uppercase text-slate-500 mb-4 tracking-widest"
+                >
+                  Desglose de Costos Estándar
+                </h4>
+                <div class="space-y-3" id="cost-breakdown">
+                  <!-- JS Render -->
+                </div>
+              </div>
+            </div>
+
+            <div class="card p-8 bg-lime-400 flex flex-col justify-between">
+              <div>
+                <p
+                  class="text-slate-900 font-bold uppercase text-[10px] tracking-widest mb-2"
+                >
+                  Precio de Venta Sugerido
+                </p>
+                <h2 id="final-price" class="text-5xl font-black text-slate-900">
+                  Bs. 0.00
+                </h2>
+                <p
+                  class="text-slate-800 text-xs mt-4 leading-relaxed font-semibold"
+                >
+                  Basado en un margen del 35% sobre el costo total de producción
+                  y materiales.
+                </p>
+              </div>
+              <div class="mt-10 space-y-3">
+                <div
+                  class="flex justify-between text-sm font-bold text-slate-900 border-b border-slate-900/10 pb-2"
+                >
+                  <span>Costo Material</span
+                  ><span id="res-material">Bs. 0.00</span>
+                </div>
+                <div
+                  class="flex justify-between text-sm font-bold text-slate-900 border-b border-slate-900/10 pb-2"
+                >
+                  <span>Mano de Obra</span><span id="res-labor">Bs. 0.00</span>
+                </div>
+                <div
+                  class="flex justify-between text-sm font-bold text-slate-900 border-b border-slate-900/10 pb-2"
+                >
+                  <span>Accesorios</span><span id="res-acc">Bs. 0.00</span>
+                </div>
+              </div>
+              <button
+                class="w-full mt-10 bg-slate-900 text-white font-bold py-4 rounded-xl shadow-xl hover:scale-[1.02] transition"
+              >
+                Generar Cotización PDF
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- FICHAS TÉCNICAS -->
+        <section id="fichas" class="tab-content">
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+            id="fichas-list"
+          >
+            <!-- JS Render -->
+          </div>
+        </section>
+
+        <!-- OPERARIOS -->
+        <section id="operarios" class="tab-content">
+          <div class="card overflow-hidden">
+            <table class="w-full text-left">
+              <thead class="bg-slate-50 border-b border-slate-200">
+                <tr>
+                  <th class="p-6 text-xs font-bold uppercase text-slate-500">
+                    Operario
+                  </th>
+                  <th class="p-6 text-xs font-bold uppercase text-slate-500">
+                    Tareas Hoy
+                  </th>
+                  <th class="p-6 text-xs font-bold uppercase text-slate-500">
+                    Eficiencia
+                  </th>
+                  <th class="p-6 text-xs font-bold uppercase text-slate-500">
+                    Producción (Uds)
+                  </th>
+                  <th
+                    class="p-6 text-xs font-bold uppercase text-slate-500 text-right"
+                  >
+                    Valor Hora (Bs.)
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="operarios-table" class="divide-y divide-slate-100">
+                <!-- JS Render -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- GESTIÓN DE PRODUCCIÓN -->
+        <section id="produccion" class="tab-content">
+          <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div class="lg:col-span-3 card p-6">
+              <div class="flex justify-between items-center mb-6">
+                <h3 class="font-bold">Calendario de Tareas Diarias</h3>
+                <div class="flex gap-2">
+                  <button class="p-2 border rounded-lg text-slate-400">
+                    <i data-lucide="chevron-left"></i>
+                  </button>
+                  <span
+                    class="px-4 py-2 font-bold text-sm bg-slate-100 rounded-lg"
+                    >12 de Febrero, 2026</span
+                  >
+                  <button class="p-2 border rounded-lg text-slate-400">
+                    <i data-lucide="chevron-right"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="space-y-4" id="tasks-daily">
+                <!-- JS Render -->
+              </div>
+            </div>
+            <div class="space-y-6">
+              <div class="card p-6 bg-slate-900 text-white">
+                <h4
+                  class="text-xs font-black uppercase text-slate-400 mb-4 tracking-widest"
+                >
+                  Resumen del Taller
+                </h4>
+                <div class="space-y-4">
+                  <div>
+                    <p class="text-slate-500 text-[10px] font-bold uppercase">
+                      Pedidos en Proceso
+                    </p>
+                    <p class="text-2xl font-bold">14</p>
+                  </div>
+                  <div>
+                    <p class="text-slate-500 text-[10px] font-bold uppercase">
+                      Entregas para Hoy
+                    </p>
+                    <p class="text-2xl font-bold text-lime-400">06</p>
+                  </div>
+                  <div
+                    class="h-1 bg-slate-800 rounded-full overflow-hidden mt-4"
+                  >
+                    <div class="h-full bg-lime-400" style="width: 72%"></div>
+                  </div>
+                  <p class="text-[10px] text-slate-500 font-bold uppercase">
+                    Capacidad Actual: 72%
+                  </p>
+                </div>
+              </div>
+              <div class="card p-6">
+                <h4
+                  class="text-xs font-black uppercase text-slate-500 mb-4 tracking-widest"
+                >
+                  Mantenimiento de Máquinas
+                </h4>
+                <div class="space-y-4" id="maintenance-list">
+                  <!-- JS Render -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MONITOREO DE PEDIDOS -->
+        <section id="monitoreo" class="tab-content">
+          <div class="card overflow-hidden">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-slate-900 text-white">
+                <tr>
+                  <th class="p-5 font-bold">Cód. Pedido</th>
+                  <th class="p-5 font-bold">Cliente</th>
+                  <th class="p-5 font-bold">Modelo / Medidas</th>
+                  <th class="p-5 font-bold">Estado</th>
+                  <th class="p-5 font-bold">Fecha Fin Est.</th>
+                  <th class="p-5 font-bold">Acción</th>
+                </tr>
+              </thead>
+              <tbody id="pedidos-table" class="divide-y divide-slate-100">
+                <!-- JS Render -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- CONTROL DE CALIDAD -->
+        <section id="calidad" class="tab-content">
+          <div class="max-w-4xl mx-auto card p-10">
+            <div class="flex items-center gap-4 mb-8">
+              <div
+                class="w-16 h-16 bg-lime-100 text-lime-600 rounded-2xl flex items-center justify-center"
+              >
+                <i data-lucide="microscope" class="w-8"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold">
+                  Inspección de Material Entrante
+                </h3>
+                <p class="text-slate-500 text-sm">
+                  Registro de calidad de rollos de tela y accesorios.
+                </p>
+              </div>
+            </div>
+            <form
+              class="grid grid-cols-2 gap-6"
+              onsubmit="
+                event.preventDefault();
+                alert('Registro guardado con éxito');
+              "
+            >
+              <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-500 uppercase"
+                  >Lote / Proveedor</label
+                >
+                <input
+                  type="text"
+                  placeholder="EJ: L-992 / Textile S.A."
+                  class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:border-lime-500"
+                />
+              </div>
+              <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-500 uppercase"
+                  >Tipo de Material</label
+                >
+                <select
+                  class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:border-lime-500"
+                >
+                  <option>Tejido Blackout</option>
+                  <option>Ejes de Aluminio</option>
+                  <option>Motores Somfy</option>
+                </select>
+              </div>
+              <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-500 uppercase"
+                  >Resultado Inspección</label
+                >
+                <div class="flex gap-4">
+                  <label
+                    class="flex-1 flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-green-50"
+                  >
+                    <input
+                      type="radio"
+                      name="result"
+                      class="accent-green-500"
+                    />
+                    <span class="text-sm font-bold">Aprobado</span>
+                  </label>
+                  <label
+                    class="flex-1 flex items-center gap-2 p-3 border rounded-xl cursor-pointer hover:bg-red-50"
+                  >
+                    <input type="radio" name="result" class="accent-red-500" />
+                    <span class="text-sm font-bold">Rechazado</span>
+                  </label>
+                </div>
+              </div>
+              <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-500 uppercase"
+                  >Operario Inspector</label
+                >
+                <input
+                  type="text"
+                  placeholder="Nombre"
+                  class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:border-lime-500"
+                />
+              </div>
+              <div class="col-span-2 space-y-2">
+                <label class="text-xs font-bold text-slate-500 uppercase"
+                  >Observaciones Técnicas</label
+                >
+                <textarea
+                  rows="3"
+                  class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:border-lime-500"
+                  placeholder="Detalle fallas o desviaciones..."
+                ></textarea>
+              </div>
+              <button
+                class="col-span-2 bg-slate-900 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition"
+              >
+                Finalizar Inspección
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- INFORMES -->
+        <section id="informes" class="tab-content">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="card p-8">
+              <h4 class="font-bold mb-6">Eficiencia Mensual vs Meta</h4>
+              <div
+                class="h-64 flex items-end justify-between gap-4 px-4 border-b border-l border-slate-100"
+              >
+                <div
+                  class="flex-1 bg-slate-100 rounded-t-lg relative group h-[40%]"
+                >
+                  <div
+                    class="absolute inset-0 bg-lime-400 rounded-t-lg h-[80%] bottom-0 mt-auto transition-all group-hover:h-[85%]"
+                  ></div>
+                  <span
+                    class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] font-bold text-slate-400"
+                    >ENE</span
+                  >
+                </div>
+                <div
+                  class="flex-1 bg-slate-100 rounded-t-lg relative group h-[60%]"
+                >
+                  <div
+                    class="absolute inset-0 bg-lime-400 rounded-t-lg h-[92%] bottom-0 mt-auto transition-all"
+                  ></div>
+                  <span
+                    class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] font-bold text-slate-400"
+                    >FEB</span
+                  >
+                </div>
+                <div
+                  class="flex-1 bg-slate-100 rounded-t-lg relative group h-[80%]"
+                >
+                  <div
+                    class="absolute inset-0 bg-lime-400 rounded-t-lg h-[65%] bottom-0 mt-auto transition-all"
+                  ></div>
+                  <span
+                    class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] font-bold text-slate-400"
+                    >MAR</span
+                  >
+                </div>
+                <div
+                  class="flex-1 bg-slate-100 rounded-t-lg relative group h-[100%]"
+                >
+                  <div
+                    class="absolute inset-0 bg-lime-400 rounded-t-lg h-[88%] bottom-0 mt-auto transition-all"
+                  ></div>
+                  <span
+                    class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] font-bold text-slate-400"
+                    >ABR</span
+                  >
+                </div>
+              </div>
+              <div class="mt-14 flex justify-center gap-6">
+                <div class="flex items-center gap-2 text-xs font-bold">
+                  <span class="w-3 h-3 bg-slate-100 rounded-sm"></span> META
+                  EST.
+                </div>
+                <div class="flex items-center gap-2 text-xs font-bold">
+                  <span class="w-3 h-3 bg-lime-400 rounded-sm"></span> REALIZADO
+                </div>
+              </div>
+            </div>
+            <div class="card p-8">
+              <h4 class="font-bold mb-6">Capacidad por Modelo</h4>
+              <div class="space-y-6">
+                <div>
+                  <div class="flex justify-between text-xs font-bold mb-2">
+                    <span>Cortinas Tradicionales</span><span>320 Uds/Mes</span>
+                  </div>
+                  <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-lime-500 w-[85%]"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs font-bold mb-2">
+                    <span>Persianas Roller</span><span>450 Uds/Mes</span>
+                  </div>
+                  <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-slate-900 w-[60%]"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs font-bold mb-2">
+                    <span>Automatización</span><span>120 Uds/Mes</span>
+                  </div>
+                  <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-indigo-500 w-[95%]"></div>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="w-full mt-10 border-2 border-slate-900 py-3 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white transition"
+              >
+                Descargar Informe Trimestral
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const APP_DATA = {
+        fichas: [
+          {
+            modelo: "Cortina Paris (Doble)",
+            trazo: "Plisado 300%",
+            material: "Lino/Velo",
+            tiempo: 120,
+            costo: 85,
+            img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=400&auto=format&fit=crop",
+          },
+          {
+            modelo: "Persiana Roller Duo",
+            trazo: "Eje 38mm",
+            material: "Poliéster",
+            tiempo: 45,
+            costo: 42,
+            img: "https://images.unsplash.com/photo-1522442676585-996024896264?q=80&w=400&auto=format&fit=crop",
+          },
+          {
+            modelo: "Blackout Motor",
+            trazo: "Guías Laterales",
+            material: "PVC Térmico",
+            tiempo: 90,
+            costo: 115,
+            img: "https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?q=80&w=400&auto=format&fit=crop",
+          },
+        ],
+        operarios: [
+          {
+            nombre: "Carlos Mendoza",
+            tareas: "4/5",
+            eficiencia: 92,
+            prod: 38,
+            valor: 12.5,
+          },
+          {
+            nombre: "Ana Lucía Ríos",
+            tareas: "6/6",
+            eficiencia: 100,
+            prod: 44,
+            valor: 13.75,
+          },
+          {
+            nombre: "Jorge Vaca",
+            tareas: "3/5",
+            eficiencia: 78,
+            prod: 30,
+            valor: 11.2,
+          },
+        ],
+        pedidos: [
+          {
+            cod: "DEC-882",
+            cliente: "Hotel Los Tajibos",
+            med: "3.5 x 2.8m",
+            status: "En Costura",
+            fin: "15/02/2026",
+            color: "blue",
+          },
+          {
+            cod: "DEC-883",
+            cliente: "Clínica Foianini",
+            med: "1.2 x 1.5m",
+            status: "Corte Realizado",
+            fin: "13/02/2026",
+            color: "yellow",
+          },
+          {
+            cod: "DEC-884",
+            cliente: "Resid. Las Palmas",
+            med: "2.0 x 2.0m",
+            status: "Finalizado",
+            fin: "Hoy",
+            color: "green",
+          },
+        ],
+        maquinas: [
+          { nombre: "Cortadora Láser #1", status: "Ok", prox: "15/Mar" },
+          { nombre: "Overlock Pro-X", status: "Service", prox: "Mañana" },
+        ],
+      };
+
+      function showTab(id) {
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((t) => t.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-btn")
+          .forEach((b) => b.classList.remove("active"));
+
+        document.getElementById(id).classList.add("active");
+        event.currentTarget.classList.add("active");
+
+        const titles = {
+          calc: "Calculadora de Precios y Costos",
+          fichas: "Fichas Técnicas de Modelos",
+          operarios: "Registro de Operarios y Valor Hora",
+          produccion: "Gestión de Taller y Máquinas",
+          monitoreo: "Planilla de Monitoreo de Pedidos",
+          calidad: "Control de Calidad del Material",
+          informes: "Análisis de Capacidad y Metas",
+        };
+        document.getElementById("tab-title").innerText = titles[id];
+      }
+
+      function calculateCost() {
+        const precioTejido = parseFloat(
+          document.getElementById("calc-tejido").value,
+        );
+        const ancho = parseFloat(document.getElementById("calc-ancho").value);
+        const alto = parseFloat(document.getElementById("calc-alto").value);
+
+        const m2 = ancho * alto;
+        const costoMaterial = m2 * precioTejido;
+        const costoLabor = 25 * 1.5; // Valor estandar fijo por demo
+        const costoAcc = 18.5;
+
+        const totalCosto = costoMaterial + costoLabor + costoAcc;
+        const precioVenta = totalCosto * 1.35;
+
+        document.getElementById("final-price").innerText =
+          `Bs.${precioVenta.toFixed(2)}`;
+        document.getElementById("res-material").innerText =
+          `Bs.${costoMaterial.toFixed(2)}`;
+        document.getElementById("res-labor").innerText =
+          `Bs.${costoLabor.toFixed(2)}`;
+        document.getElementById("res-acc").innerText =
+          `Bs.${costoAcc.toFixed(2)}`;
+
+        document.getElementById("cost-breakdown").innerHTML = `
+                <div class="flex justify-between text-xs"><span>Tejido (${m2.toFixed(2)} m²)</span><span>Bs.${costoMaterial.toFixed(2)}</span></div>
+                <div class="flex justify-between text-xs"><span>Mano de Obra (Est.)</span><span>Bs.${costoLabor.toFixed(2)}</span></div>
+                <div class="flex justify-between text-xs"><span>Accesorios e Insumos</span><span>Bs.${costoAcc.toFixed(2)}</span></div>
+            `;
+      }
+
+      function renderAll() {
+        // Fichas
+        document.getElementById("fichas-list").innerHTML = APP_DATA.fichas
+          .map(
+            (f) => `
+                <div class="card overflow-hidden group">
+                    <div class="h-48 overflow-hidden">
+                        <img src="${f.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-6">
+                        <h4 class="font-bold text-lg mb-1">${f.modelo}</h4>
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-4">${f.trazo}</p>
+                        <div class="grid grid-cols-2 gap-4 border-t pt-4">
+                            <div><p class="text-[10px] text-slate-500 uppercase font-bold">Tiempo Est.</p><p class="font-bold text-sm">${f.tiempo} min</p></div>
+                            <div><p class="text-[10px] text-slate-500 uppercase font-bold">Costo Base</p><p class="font-bold text-sm text-lime-600">Bs.${f.costo}</p></div>
+                        </div>
+                    </div>
+                </div>
+            `,
+          )
+          .join("");
+
+        // Operarios
+        document.getElementById("operarios-table").innerHTML =
+          APP_DATA.operarios
+            .map(
+              (o) => `
+                <tr class="hover:bg-slate-50">
+                    <td class="p-6 font-bold text-slate-800">${o.nombre}</td>
+                    <td class="p-6"><span class="px-3 py-1 bg-slate-100 rounded-full text-xs font-bold">${o.tareas}</span></td>
+                    <td class="p-6">
+                        <div class="flex items-center gap-2">
+                            <div class="w-24 h-1.5 bg-slate-100 rounded-full"><div class="h-full bg-lime-400 rounded-full" style="width: ${o.eficiencia}%"></div></div>
+                            <span class="text-xs font-bold">${o.eficiencia}%</span>
+                        </div>
+                    </td>
+                    <td class="p-6 font-bold text-sm">${o.prod}</td>
+                    <td class="p-6 text-right font-bold text-slate-900">Bs.${o.valor.toFixed(2)}</td>
+                </tr>
+            `,
+            )
+            .join("");
+
+        // Pedidos Monitoreo
+        const colors = {
+          blue: "bg-blue-100 text-blue-700",
+          yellow: "bg-amber-100 text-amber-700",
+          green: "bg-emerald-100 text-emerald-700",
+        };
+        document.getElementById("pedidos-table").innerHTML = APP_DATA.pedidos
+          .map(
+            (p) => `
+                <tr class="hover:bg-slate-50 transition">
+                    <td class="p-5 font-bold text-slate-400">#${p.cod}</td>
+                    <td class="p-5 font-bold">${p.cliente}</td>
+                    <td class="p-5 text-xs font-bold uppercase text-slate-500">${p.med}</td>
+                    <td class="p-5"><span class="px-3 py-1 ${colors[p.color]} rounded-lg text-[10px] font-black uppercase">${p.status}</span></td>
+                    <td class="p-5 text-xs font-bold">${p.fin}</td>
+                    <td class="p-5 text-blue-600 cursor-pointer hover:underline font-bold text-xs">Ver Detalle</td>
+                </tr>
+            `,
+          )
+          .join("");
+
+        // Tareas diarias
+        document.getElementById("tasks-daily").innerHTML = APP_DATA.pedidos
+          .map(
+            (p) => `
+                <div class="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center font-black text-slate-300">#</div>
+                    <div class="flex-1">
+                        <p class="text-sm font-bold">${p.cliente} - ${p.med}</p>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase">Estado: ${p.status}</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-slate-200 border-2 border-white"></div>
+                        <i data-lucide="more-horizontal" class="text-slate-300"></i>
+                    </div>
+                </div>
+            `,
+          )
+          .join("");
+
+        // Maquinas
+        document.getElementById("maintenance-list").innerHTML =
+          APP_DATA.maquinas
+            .map(
+              (m) => `
+                <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl">
+                    <div><p class="text-xs font-bold">${m.nombre}</p><p class="text-[10px] text-slate-400">Prox: ${m.prox}</p></div>
+                    <span class="text-[9px] font-black uppercase ${m.status === "Ok" ? "text-lime-500" : "text-amber-500"}">${m.status}</span>
+                </div>
+            `,
+            )
+            .join("");
+
+        lucide.createIcons();
+        calculateCost();
+      }
+
+      window.onload = renderAll;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Presupuesto | DECORA INTERIORES</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter  :wght@300;400;500&family=IBM+Plex+Serif:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --navy: #0a1f33; /* Azul profundo (cumbres en sombra) */
+        --slate: #2d3748; /* Gris carbón (rocas) */
+        --mist: #f8fafc; /* Blanco casi puro (nieve) */
+        --text: #1a202c;
+        --gray: #e2e8f0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        color: var(--text);
+        background-color: var(--mist);
+        line-height: 1.6;
+        padding-bottom: 4rem;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "IBM Plex Serif", serif;
+        font-weight: 500;
+        margin-bottom: 0.75rem;
+        color: var(--navy);
+      }
+
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+
+      /* Header minimalista */
+      header {
+        padding: 4rem 0 2rem;
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 2.2rem;
+        letter-spacing: -0.5px;
+      }
+
+      header p {
+        font-size: 1.05rem;
+        color: var(--slate);
+        max-width: 600px;
+        margin: 1rem auto;
+        font-weight: 300;
+      }
+
+      /* Secciones */
+      section {
+        margin-bottom: 3rem;
+      }
+
+      .section-title {
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--gray);
+        color: var(--navy);
+      }
+
+      /* Tabla minimalista */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+      }
+
+      th,
+      td {
+        padding: 0.8rem 0;
+        text-align: left;
+      }
+
+      th {
+        font-weight: 500;
+        color: var(--slate);
+        padding-bottom: 0.5rem;
+      }
+
+      tr:not(:last-child) td {
+        border-bottom: 1px solid var(--gray);
+      }
+
+      tr.total-row td {
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: var(--navy);
+        padding-top: 1.2rem;
+      }
+
+      /* Footer */
+      footer {
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--gray);
+        color: var(--slate);
+        font-size: 0.9rem;
+        text-align: center;
+      }
+
+      .signature {
+        margin-top: 2rem;
+        font-style: italic;
+        color: var(--slate);
+      }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+        header h1 {
+          font-size: 1.8rem;
+        }
+        .container {
+          padding: 0 1rem;
+        }
+        section {
+          margin-bottom: 2rem;
+        }
+        th,
+        td {
+          padding: 0.6rem 0;
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Cotización #1: Presupuesto Técnico</h1>
+        <p>Sistema integral para gestión empresarial — DECORA INTERIORES</p>
+      </header>
+
+      <section>
+        <h2 class="section-title">Información</h2>
+        <p><strong>Empresa:</strong> DECORA INTERIORES</p>
+        <p><strong>Dirección:</strong> Calle Villa Dolores, La Paz, Bolivia</p>
+        <p><strong>Desarrollador:</strong> Ariel Franco Rocabado Ramos</p>
+        <p><strong>Fecha:</strong> 12 de febrero de 2026</p>
+        <p><strong>Validez:</strong> 5 días</p>
+        <p><strong>Tipo de cambio:</strong> 1 USD = 8 Bs</p>
+      </section>
+
+      <section>
+        <h2 class="section-title">Desglose</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Concepto</th>
+              <th>Hs / Unid.</th>
+              <th>USD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Análisis y Diseño</td>
+              <td>24</td>
+              <td>$360</td>
+            </tr>
+            <tr>
+              <td>Desarrollo Backend</td>
+              <td>58</td>
+              <td>$1,160</td>
+            </tr>
+            <tr>
+              <td>Desarrollo Frontend</td>
+              <td>48</td>
+              <td>$864</td>
+            </tr>
+            <tr>
+              <td>Testing</td>
+              <td>13</td>
+              <td>$195</td>
+            </tr>
+            <tr>
+              <td>Deploy y Configuración</td>
+              <td>11</td>
+              <td>$198</td>
+            </tr>
+            <tr>
+              <td>Hosting (1 año)</td>
+              <td>1</td>
+              <td>$250</td>
+            </tr>
+            <tr>
+              <td>Gestión y Soporte</td>
+              <td>—</td>
+              <td>$298</td>
+              <!-- Ajustado para que el total sea $3,125 -->
+            </tr>
+            <tr class="total-row">
+              <td>Total</td>
+              <td>155 hs</td>
+              <td>$3,125</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2 class="section-title">Alcance</h2>
+        <ul style="padding-left: 1.2rem; margin-bottom: 1.5rem">
+          <li>
+            Sistema web con roles: Administrador, Comercial, Producción,
+            Almacén, Contabilidad
+          </li>
+          <li>Frontend responsive (móvil, tablet, escritorio)</li>
+          <li>Soporte técnico incluido (30 días post-entrega)</li>
+          <li>Documentación técnica y guía de usuario</li>
+        </ul>
+        <p><strong>Plazo:</strong> 3 meses desde firma del acuerdo.</p>
+      </section>
+
+      <section style="text-align: center; margin-top: 2rem">
+        <p style="margin-bottom: 1.2rem; font-weight: 500">
+          ¿Aceptas este presupuesto?
+        </p>
+        <a
+          href="https://wa.me/59162409894?text=Hola,%20estoy%20interesado%20en%20la%20Cotización%20%231:%20Sistema%20Web%20con%20Hosting."
+          style="
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid var(--navy);
+          "
+        >
+          Confirmar por WhatsApp
+        </a>
+      </section>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>DECORA INTERIORES · Calle Villa Dolores, La Paz</p>
+        <p>
+          Desarrollado por
+          <strong>Ariel Franco Rocabado Ramos</strong>-AndesCode
+        </p>
+        <div class="signature">
+          Firma del desarrollador<br />
+          Ariel Franco Rocabado Ramos
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cotización 1 | DECORA INTERIORES</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=IBM+Plex+Serif:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --navy: #0a1f33;
+        --slate: #2d3748;
+        --mist: #f8fafc;
+        --text: #1a202c;
+        --gray: #e2e8f0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        color: var(--text);
+        background-color: var(--mist);
+        line-height: 1.6;
+        padding-bottom: 4rem;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "IBM Plex Serif", serif;
+        font-weight: 500;
+        margin-bottom: 0.75rem;
+        color: var(--navy);
+      }
+
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+
+      header {
+        padding: 4rem 0 2rem;
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 2.2rem;
+        letter-spacing: -0.5px;
+      }
+      header p {
+        font-size: 1.05rem;
+        color: var(--slate);
+        max-width: 600px;
+        margin: 1rem auto;
+        font-weight: 300;
+      }
+
+      section {
+        margin-bottom: 3rem;
+      }
+      .section-title {
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--gray);
+        color: var(--navy);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+      }
+
+      th,
+      td {
+        padding: 0.8rem 0;
+        text-align: left;
+      }
+
+      th {
+        font-weight: 500;
+        color: var(--slate);
+        padding-bottom: 0.5rem;
+      }
+
+      tr:not(:last-child) td {
+        border-bottom: 1px solid var(--gray);
+      }
+
+      tr.total-row td {
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: var(--navy);
+        padding-top: 1.2rem;
+      }
+
+      footer {
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--gray);
+        color: var(--slate);
+        font-size: 0.9rem;
+        text-align: center;
+      }
+
+      .signature {
+        margin-top: 2rem;
+        font-style: italic;
+        color: var(--slate);
+      }
+
+      @media (max-width: 600px) {
+        header h1 {
+          font-size: 1.8rem;
+        }
+        .container {
+          padding: 0 1rem;
+        }
+        section {
+          margin-bottom: 2rem;
+        }
+        th,
+        td {
+          padding: 0.6rem 0;
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Cotización #2: Sistema Local (Red LAN)</h1>
+        <p>Solución interna sin costos de hosting – DECORA INTERIORES</p>
+      </header>
+
+      <section>
+        <h2 class="section-title">Información</h2>
+        <p><strong>Empresa:</strong> DECORA INTERIORES</p>
+        <p><strong>Dirección:</strong> Calle Villa Dolores, La Paz, Bolivia</p>
+        <p><strong>Desarrollador:</strong> Ariel Franco Rocabado Ramos</p>
+        <p><strong>Fecha:</strong> 12 de febrero de 2026</p>
+        <p><strong>Validez:</strong> 5 días</p>
+        <p><strong>Tipo de cambio:</strong> 1 USD = 8 Bs</p>
+      </section>
+
+      <section>
+        <h2 class="section-title">Desglose</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Concepto</th>
+              <th>Hs / Unid.</th>
+              <th>USD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Análisis y diseño</td>
+              <td>20</td>
+              <td>$300</td>
+            </tr>
+            <tr>
+              <td>Desarrollo Backend</td>
+              <td>45</td>
+              <td>$900</td>
+            </tr>
+            <tr>
+              <td>Desarrollo Frontend</td>
+              <td>35</td>
+              <td>$630</td>
+            </tr>
+            <tr>
+              <td>Testing</td>
+              <td>10</td>
+              <td>$150</td>
+            </tr>
+            <tr>
+              <td>Configuración Local y Red (LAN)</td>
+              <td>8</td>
+              <td>$144</td>
+            </tr>
+            <tr>
+              <td>Gestión y Soporte</td>
+              <td>—</td>
+              <td>$376</td>
+            </tr>
+            <tr class="total-row">
+              <td><strong>Total</strong></td>
+              <td><strong>118 hs</strong></td>
+              <td><strong>$2,500</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2 class="section-title">Características</h2>
+        <ul style="padding-left: 1.2rem; margin-bottom: 1.5rem">
+          <li>Sistema web hospedado localmente en una PC de la empresa.</li>
+          <li>
+            Otros usuarios acceden desde sus computadoras vía dirección IP local
+            (ej: http://192.168.1.100).
+          </li>
+          <li>
+            Roles: Administrador, Comercial, Producción, Almacén, Contabilidad.
+          </li>
+          <li>No incluye costos de hosting ni dominio.</li>
+          <li>Cliente debe proveer una PC dedicada como servidor.</li>
+        </ul>
+        <p><strong>Plazo:</strong> 3 meses desde firma del acuerdo.</p>
+      </section>
+
+      <section style="text-align: center; margin-top: 2rem">
+        <p style="margin-bottom: 1.2rem; font-weight: 500">
+          ¿Acepta esta cotización?
+        </p>
+        <a
+          href="https://wa.me/59162409894?text=Hola,%20estoy%20interesado%20en%20la%20Cotización%20%232:%20Sistema%20Local%20(Red%20LAN)."
+          style="
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid var(--navy);
+          "
+        >
+          Confirmar por WhatsApp
+        </a>
+      </section>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>DECORA INTERIORES · Calle Villa Dolores, La Paz</p>
+        <p>
+          Desarrollado por
+          <strong>Ariel Franco Rocabado Ramos</strong>-AndesCode
+        </p>
+        <div class="signature">
+          Firma del desarrollador<br />
+          Ariel Franco Rocabado Ramos
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

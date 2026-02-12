@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DECORA INTERIORES - ERP Contable Fiscal Integral</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.0/lucide.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f1f5f9;
+      }
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+        animation: fadeIn 0.2s ease-out;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(4px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .sidebar-btn:hover {
+        background: #1e293b;
+        color: #3b82f6;
+      }
+      .sidebar-btn.active {
+        background: #2563eb;
+        color: white;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+      }
+      .account-card {
+        border-left: 4px solid #3b82f6;
+      }
+    </style>
+  </head>
+  <body class="flex h-screen overflow-hidden text-slate-700">
+    <!-- SIDEBAR NAV -->
+    <aside
+      class="w-80 bg-slate-900 text-slate-400 flex flex-col border-r border-slate-800 shadow-2xl z-20"
+    >
+      <div class="p-8 border-b border-slate-800 flex items-center gap-3">
+        <div
+          class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg"
+        >
+          <i data-lucide="layout-grid"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-extrabold text-white tracking-tighter">
+            DECORA <span class="text-blue-500 font-normal">ERP</span>
+          </h1>
+          <p
+            class="text-[10px] uppercase font-bold text-slate-500 tracking-widest"
+          >
+            Contabilidad & SIAT
+          </p>
+        </div>
+      </div>
+
+      <nav class="flex-1 overflow-y-auto p-4 space-y-1 custom-scrollbar">
+        <p class="text-[10px] font-black text-slate-600 uppercase px-4 py-2">
+          Gestión Contable
+        </p>
+        <button
+          onclick="changeTab('diario', this)"
+          class="sidebar-btn active w-full flex items-center gap-3 p-3 rounded-xl text-sm transition font-medium"
+        >
+          <i data-lucide="book-open" class="w-4"></i> Libro Diario
+        </button>
+        <button
+          onclick="changeTab('mayor', this)"
+          class="sidebar-btn w-full flex items-center gap-3 p-3 rounded-xl text-sm transition font-medium"
+        >
+          <i data-lucide="list-ordered" class="w-4"></i> Libro Mayor
+        </button>
+        <button
+          onclick="changeTab('saldos', this)"
+          class="sidebar-btn w-full flex items-center gap-3 p-3 rounded-xl text-sm transition font-medium"
+        >
+          <i data-lucide="scale" class="w-4"></i> Sumas y Saldos
+        </button>
+
+        <p
+          class="text-[10px] font-black text-slate-600 uppercase px-4 py-2 mt-4"
+        >
+          Reportes SIAT (Bolivia)
+        </p>
+        <button
+          onclick="changeTab('siat-ventas', this)"
+          class="sidebar-btn w-full flex items-center gap-3 p-3 rounded-xl text-sm transition font-medium"
+        >
+          <i data-lucide="file-up" class="w-4"></i> Registro Ventas RCV
+        </button>
+        <button
+          onclick="changeTab('siat-compras', this)"
+          class="sidebar-btn w-full flex items-center gap-3 p-3 rounded-xl text-sm transition font-medium"
+        >
+          <i data-lucide="file-down" class="w-4"></i> Registro Compras RCV
+        </button>
+        <button
+          onclick="changeTab('retenciones', this)"
+          class="sidebar-btn w-full flex items-center gap-3 p-3 rounded-xl text-sm transition font-medium"
+        >
+          <i data-lucide="scissors" class="w-4"></i> Libro Retenciones
+        </button>
+
+        <p
+          class="text-[10px] font-black text-slate-600 uppercase px-4 py-2 mt-4"
+        >
+          Estados Financieros
+        </p>
+        <button
+          onclick="changeTab('balance', this)"
+          class="sidebar-btn w-full flex items-center gap-3 p-3 rounded-xl text-sm transition font-medium"
+        >
+          <i data-lucide="landmark" class="w-4"></i> Balance General
+        </button>
+        <button
+          onclick="changeTab('resultados', this)"
+          class="sidebar-btn w-full flex items-center gap-3 p-3 rounded-xl text-sm transition font-medium"
+        >
+          <i data-lucide="trending-up" class="w-4"></i> Estado de Resultados
+        </button>
+
+        <p
+          class="text-[10px] font-black text-slate-600 uppercase px-4 py-2 mt-4"
+        >
+          Análisis & Cierre
+        </p>
+        <button
+          onclick="changeTab('analisis', this)"
+          class="sidebar-btn w-full flex items-center gap-3 p-3 rounded-xl text-sm transition font-medium"
+        >
+          <i data-lucide="bar-chart-4" class="w-4"></i> Ratios Financieros
+        </button>
+        <button
+          onclick="changeTab('notas', this)"
+          class="sidebar-btn w-full flex items-center gap-3 p-3 rounded-xl text-sm transition font-medium"
+        >
+          <i data-lucide="sticky-note" class="w-4"></i> Notas a los EE.FF.
+        </button>
+      </nav>
+
+      <div
+        class="p-6 bg-slate-950/50 border-t border-slate-800 flex items-center gap-3"
+      >
+        <div
+          class="w-8 h-8 rounded-full bg-blue-500/20 text-blue-500 flex items-center justify-center font-bold text-xs italic"
+        >
+          DI
+        </div>
+        <div class="flex-1 truncate">
+          <p class="text-xs font-bold text-white">Administrador</p>
+          <p class="text-[10px] text-slate-500">Decora Interiores S.R.L.</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN SECTION -->
+    <main class="flex-1 flex flex-col overflow-hidden bg-white/50">
+      <!-- TOPBAR -->
+      <header
+        class="h-20 bg-white border-b border-slate-200 px-10 flex items-center justify-between z-10 shrink-0"
+      >
+        <div>
+          <h2
+            id="view-title"
+            class="text-2xl font-extrabold text-slate-800 tracking-tight"
+          >
+            Libro Diario General
+          </h2>
+          <div
+            class="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1"
+          >
+            <span class="text-blue-600">GESTIÓN 2026</span> <span>•</span>
+            <span>NIT: 10203040021</span> <span>•</span>
+            <span class="text-green-600">SISTEMA INTEGRADO</span>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <button
+            onclick="window.print()"
+            class="px-5 py-2.5 bg-slate-100 text-slate-700 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-slate-200 transition"
+          >
+            <i data-lucide="printer" class="w-4"></i> Imprimir
+          </button>
+          <button
+            class="px-5 py-2.5 bg-blue-600 text-white rounded-xl text-xs font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition flex items-center gap-2"
+          >
+            <i data-lucide="plus" class="w-4"></i> Nuevo Asiento
+          </button>
+        </div>
+      </header>
+
+      <!-- CONTENT VIEWPORT -->
+      <div class="flex-1 overflow-y-auto p-10 custom-scrollbar">
+        <!-- MODULE: LIBRO DIARIO -->
+        <section id="diario" class="tab-content active">
+          <div class="grid grid-cols-1 gap-6" id="diario-list"></div>
+        </section>
+
+        <!-- MODULE: LIBRO MAYOR -->
+        <section id="mayor" class="tab-content">
+          <div
+            class="grid grid-cols-1 lg:grid-cols-2 gap-8"
+            id="mayor-render"
+          ></div>
+        </section>
+
+        <!-- MODULE: SUMAS Y SALDOS -->
+        <section id="saldos" class="tab-content">
+          <div
+            class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden"
+          >
+            <table class="w-full text-left text-sm">
+              <thead
+                class="bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.2em]"
+              >
+                <tr>
+                  <th class="p-6">Cuenta / Clasificación</th>
+                  <th class="p-6 text-right">Sumas Debe</th>
+                  <th class="p-6 text-right">Sumas Haber</th>
+                  <th class="p-6 text-right">Saldos Deudor</th>
+                  <th class="p-6 text-right">Saldos Acreedor</th>
+                </tr>
+              </thead>
+              <tbody id="saldos-render" class="divide-y text-slate-600"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- MODULE: SIAT VENTAS -->
+        <section id="siat-ventas" class="tab-content">
+          <div class="bg-white rounded-3xl p-8 border">
+            <h3 class="font-black text-xl mb-6">Libro de Ventas SIAT</h3>
+            <table class="w-full text-xs text-left">
+              <thead class="bg-slate-50 text-slate-400 font-black uppercase">
+                <tr>
+                  <th class="p-4">Fecha</th>
+                  <th class="p-4">Factura #</th>
+                  <th class="p-4">NIT/CI Cliente</th>
+                  <th class="p-4">Importe</th>
+                  <th class="p-4">Débito Fiscal</th>
+                  <th class="p-4">IT (3%)</th>
+                  <th class="p-4">Estado</th>
+                </tr>
+              </thead>
+              <tbody id="siat-ventas-render" class="divide-y"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- MODULE: SIAT COMPRAS -->
+        <section id="siat-compras" class="tab-content">
+          <div class="bg-white rounded-3xl p-8 border">
+            <h3 class="font-black text-xl mb-6">Libro de Compras SIAT</h3>
+            <table class="w-full text-xs text-left">
+              <thead class="bg-slate-50 text-slate-400 font-black uppercase">
+                <tr>
+                  <th class="p-4">Fecha</th>
+                  <th class="p-4">NIT Proveedor</th>
+                  <th class="p-4">Factura #</th>
+                  <th class="p-4">Importe</th>
+                  <th class="p-4">Crédito Fiscal</th>
+                  <th class="p-4">Cod. Autorización</th>
+                </tr>
+              </thead>
+              <tbody id="siat-compras-render" class="divide-y"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- MODULE: RETENCIONES -->
+        <section id="retenciones" class="tab-content">
+          <div class="bg-white rounded-3xl p-8 border">
+            <h3 class="font-black text-xl mb-6">
+              Registro de Retenciones (IUE / IT)
+            </h3>
+            <table class="w-full text-xs text-left">
+              <thead class="bg-slate-900 text-white font-black uppercase">
+                <tr>
+                  <th class="p-4">Fecha</th>
+                  <th class="p-4">Concepto</th>
+                  <th class="p-4 text-right">Monto Bruto</th>
+                  <th class="p-4 text-right">Ret. IUE</th>
+                  <th class="p-4 text-right">Ret. IT</th>
+                  <th class="p-4 text-right">Líquido Pagado</th>
+                </tr>
+              </thead>
+              <tbody id="retenciones-render" class="divide-y"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- BALANCE GENERAL -->
+        <section id="balance" class="tab-content">
+          <div
+            class="max-w-5xl mx-auto bg-white p-12 rounded-[3rem] shadow-xl border border-slate-100"
+          >
+            <div id="balance-render" class="grid grid-cols-2 gap-20"></div>
+          </div>
+        </section>
+
+        <!-- ESTADO DE RESULTADOS -->
+        <section id="resultados" class="tab-content">
+          <div
+            class="max-w-3xl mx-auto bg-slate-900 text-white p-16 rounded-[3rem] shadow-2xl"
+          >
+            <div id="resultados-render" class="space-y-4"></div>
+          </div>
+        </section>
+
+        <!-- ANALISIS -->
+        <section id="analisis" class="tab-content">
+          <div class="grid grid-cols-3 gap-8" id="analisis-render"></div>
+        </section>
+
+        <!-- NOTAS -->
+        <section id="notas" class="tab-content">
+          <div
+            class="bg-white p-12 rounded-[2.5rem] border shadow-sm max-w-4xl mx-auto"
+          >
+            <h3 class="font-black text-2xl mb-8">Notas a los EE.FF.</h3>
+            <textarea
+              class="w-full h-80 bg-slate-50 rounded-2xl p-8 text-sm leading-relaxed outline-none border focus:border-blue-500"
+            >
+NOTA 1. IDENTIFICACIÓN Y NATURALEZA
+Decora Interiores S.R.L. se dedica a la venta de cortinas y alfombras...
+                    </textarea
+            >
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const APP_DATA = {
+        asientos: [
+          {
+            id: 101,
+            fecha: "02/01/2026",
+            glosa: "Asiento de Apertura",
+            lineas: [
+              { c: "Caja Moneda Nacional", d: 150000, h: 0 },
+              { c: "Inventario de Telas y Persianas", d: 85000, h: 0 },
+              { c: "Muebles y Enseres", d: 25000, h: 0 },
+              { c: "Capital Social", d: 0, h: 260000 },
+            ],
+          },
+          {
+            id: 102,
+            fecha: "15/01/2026",
+            glosa: "Venta 20 Cortinas s/ Factura #501",
+            lineas: [
+              { c: "Caja Moneda Nacional", d: 20000, h: 0 },
+              { c: "Impuesto a las Transacciones (IT)", d: 600, h: 0 },
+              { c: "Ventas Netas", d: 0, h: 17400 },
+              { c: "IVA Débito Fiscal", d: 0, h: 2600 },
+              { c: "IT por Pagar", d: 0, h: 600 },
+            ],
+          },
+          {
+            id: 103,
+            fecha: "15/01/2026",
+            glosa: "Costo de Ventas Almacén",
+            lineas: [
+              { c: "Costo de Ventas", d: 7500, h: 0 },
+              { c: "Inventario de Telas y Persianas", d: 0, h: 7500 },
+            ],
+          },
+          {
+            id: 104,
+            fecha: "25/01/2026",
+            glosa: "Compra Insumos s/ Factura #990",
+            lineas: [
+              { c: "Inventario de Telas y Persianas", d: 4350, h: 0 },
+              { c: "IVA Crédito Fiscal", d: 650, h: 0 },
+              { c: "Caja Moneda Nacional", d: 0, h: 5000 },
+            ],
+          },
+          {
+            id: 105,
+            fecha: "30/01/2026",
+            glosa: "Retención Servicio Instalación Externo",
+            lineas: [
+              { c: "Gastos de Instalación", d: 2000, h: 0 },
+              { c: "Retenciones IUE/IT por Pagar", d: 0, h: 310 },
+              { c: "Caja Moneda Nacional", d: 0, h: 1690 },
+            ],
+          },
+        ],
+        tipos: {
+          "Caja Moneda Nacional": "A",
+          "Inventario de Telas y Persianas": "A",
+          "Muebles y Enseres": "A",
+          "IVA Crédito Fiscal": "A",
+          "Capital Social": "K",
+          "IVA Débito Fiscal": "P",
+          "IT por Pagar": "P",
+          "Retenciones IUE/IT por Pagar": "P",
+          "Ventas Netas": "I",
+          "Impuesto a las Transacciones (IT)": "G",
+          "Costo de Ventas": "G",
+          "Gastos de Instalación": "G",
+        },
+      };
+
+      function changeTab(id, btn) {
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((t) => t.classList.remove("active"));
+        document
+          .querySelectorAll(".sidebar-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        btn.classList.add("active");
+        document.getElementById("view-title").innerText = btn.innerText;
+        render(id);
+        lucide.createIcons();
+      }
+
+      function render(view) {
+        const renderers = {
+          diario: renderDiario,
+          mayor: renderMayor,
+          saldos: renderSaldos,
+          "siat-ventas": renderSiatVentas,
+          "siat-compras": renderSiatCompras,
+          retenciones: renderRetenciones,
+          balance: renderBalance,
+          resultados: renderResultados,
+          analisis: renderAnalisis,
+        };
+        if (renderers[view]) renderers[view]();
+      }
+
+      function renderDiario() {
+        const cont = document.getElementById("diario-list");
+        cont.innerHTML = APP_DATA.asientos
+          .map(
+            (a) => `
+                <div class="bg-white rounded-3xl border shadow-sm overflow-hidden">
+                    <div class="p-4 bg-slate-50 px-8 flex justify-between text-[10px] font-black uppercase text-slate-400">
+                        <span>ASIENTO #${a.id} • ${a.fecha}</span>
+                        <span class="text-slate-700">${a.glosa}</span>
+                    </div>
+                    <table class="w-full text-xs">
+                        ${a.lineas.map((l) => `<tr class="border-b border-slate-50"><td class="p-4 pl-12 font-bold">${l.c}</td><td class="text-right p-4 font-mono font-bold text-blue-600">${l.d || ""}</td><td class="text-right p-4 font-mono font-bold text-red-500">${l.h || ""}</td></tr>`).join("")}
+                    </table>
+                </div>
+            `,
+          )
+          .join("");
+      }
+
+      function renderMayor() {
+        const container = document.getElementById("mayor-render");
+        const map = {};
+        APP_DATA.asientos.forEach((a) => {
+          a.lineas.forEach((l) => {
+            if (!map[l.c]) map[l.c] = [];
+            map[l.c].push({ fecha: a.fecha, glosa: a.glosa, d: l.d, h: l.h });
+          });
+        });
+
+        container.innerHTML = Object.keys(map)
+          .map((cuenta) => {
+            let sDebe = 0,
+              sHaber = 0;
+            const rows = map[cuenta]
+              .map((m) => {
+                sDebe += m.d;
+                sHaber += m.h;
+                return `<tr class="border-b border-slate-50"><td class="p-2">${m.fecha}</td><td class="p-2 text-right">${m.d || "-"}</td><td class="p-2 text-right">${m.h || "-"}</td></tr>`;
+              })
+              .join("");
+            return `
+                    <div class="bg-white rounded-3xl border p-6 account-card">
+                        <h4 class="font-black text-sm mb-4 uppercase text-slate-800">${cuenta}</h4>
+                        <table class="w-full text-[10px]">
+                            <thead><tr class="text-slate-400 uppercase"><th>Fecha</th><th class="text-right">Debe</th><th class="text-right">Haber</th></tr></thead>
+                            <tbody>${rows}</tbody>
+                            <tfoot class="font-bold border-t"><tr><td>TOTALES</td><td class="text-right">${sDebe}</td><td class="text-right">${sHaber}</td></tr></tfoot>
+                        </table>
+                    </div>
+                `;
+          })
+          .join("");
+      }
+
+      function renderSaldos() {
+        const body = document.getElementById("saldos-render");
+        const map = getSaldosMap();
+        body.innerHTML = Object.keys(map)
+          .map(
+            (c) => `
+                <tr><td class="p-5 pl-10 font-bold">${c}</td><td class="p-5 text-right font-mono">${map[c].d}</td><td class="p-5 text-right font-mono">${map[c].h}</td><td class="p-5 text-right font-mono text-blue-600 font-bold">${map[c].sD > 0 ? map[c].sD : "-"}</td><td class="p-5 text-right font-mono text-red-600 font-bold">${map[c].sA > 0 ? map[c].sA : "-"}</td></tr>
+            `,
+          )
+          .join("");
+      }
+
+      function renderSiatVentas() {
+        const body = document.getElementById("siat-ventas-render");
+        body.innerHTML = `<tr><td class="p-4">15/01/2026</td><td class="p-4 font-bold">501</td><td class="p-4">10203040021</td><td class="p-4 font-mono">20,000.00</td><td class="p-4 font-mono text-blue-600">2,600.00</td><td class="p-4 font-mono text-red-500">600.00</td><td class="p-4"><span class="px-2 py-1 bg-green-100 text-green-700 rounded text-[10px] font-bold">VÁLIDA</span></td></tr>`;
+      }
+
+      function renderSiatCompras() {
+        const body = document.getElementById("siat-compras-render");
+        body.innerHTML = `<tr><td class="p-4">25/01/2026</td><td class="p-4 font-bold">20304050</td><td class="p-4">990</td><td class="p-4 font-mono">5,000.00</td><td class="p-4 font-mono text-blue-600">650.00</td><td class="p-4 font-mono text-[10px]">AUTH-992-B</td></tr>`;
+      }
+
+      function renderRetenciones() {
+        const body = document.getElementById("retenciones-render");
+        body.innerHTML = `<tr><td class="p-4">30/01/2026</td><td class="p-4 font-bold italic">Instalación Cortinas (Sin Factura)</td><td class="p-4 text-right">2,000.00</td><td class="p-4 text-right text-orange-600">250.00 (12.5%)</td><td class="p-4 text-right text-orange-600">60.00 (3%)</td><td class="p-4 text-right font-bold text-green-600">1,690.00</td></tr>`;
+      }
+
+      function renderBalance() {
+        const map = getSaldosMap();
+        let act = 0,
+          pas = 0,
+          k = 0,
+          i = 0,
+          g = 0;
+        Object.keys(map).forEach((c) => {
+          const tipo = APP_DATA.tipos[c];
+          if (tipo === "A") act += map[c].sD;
+          if (tipo === "P") pas += map[c].sA;
+          if (tipo === "K") k += map[c].sA;
+          if (tipo === "I") i += map[c].sA;
+          if (tipo === "G") g += map[c].sD;
+        });
+        const util = i - g;
+        document.getElementById("balance-render").innerHTML = `
+                <div><h5 class="font-black text-blue-600 border-b mb-4">ACTIVO</h5><div class="flex justify-between text-sm"><span>Total Activos</span><b>${act.toLocaleString()}</b></div><div class="flex justify-between text-xl font-black mt-8"><span>TOTAL</span><span>${act.toLocaleString()}</span></div></div>
+                <div><h5 class="font-black text-red-600 border-b mb-4">PASIVO Y PATRIMONIO</h5><div class="flex justify-between text-sm"><span>Pasivo Fiscal</span><b>${pas.toLocaleString()}</b></div><div class="flex justify-between text-sm"><span>Capital</span><b>${k.toLocaleString()}</b></div><div class="flex justify-between text-sm text-green-600 italic"><span>Utilidad Gestión</span><b>${util.toLocaleString()}</b></div><div class="flex justify-between text-xl font-black mt-8"><span>TOTAL</span><span>${(pas + k + util).toLocaleString()}</span></div></div>
+            `;
+      }
+
+      function renderResultados() {
+        const map = getSaldosMap();
+        let i = 0,
+          g = 0;
+        Object.keys(map).forEach((c) => {
+          const tipo = APP_DATA.tipos[c];
+          if (tipo === "I") i += map[c].sA;
+          if (tipo === "G") g += map[c].sD;
+        });
+        document.getElementById("resultados-render").innerHTML =
+          `<div class="text-center mb-8"><h3 class="text-xl font-black uppercase">Resultados 2026</h3></div><div class="flex justify-between text-lg"><span>Ingresos por Ventas</span><span class="text-green-400 font-bold">${i.toLocaleString()}</span></div><div class="flex justify-between text-sm italic"><span>(-) Gastos y Costos</span><span>(${g.toLocaleString()})</span></div><div class="pt-8 border-t flex justify-between items-end"><h4 class="text-2xl font-black">UTILIDAD</h4><span class="text-4xl text-green-400 font-mono">${(i - g).toLocaleString()}</span></div>`;
+      }
+
+      function renderAnalisis() {
+        document.getElementById("analisis-render").innerHTML = `
+                <div class="bg-white p-8 rounded-3xl border-t-4 border-blue-600 text-center"><p class="text-[10px] font-black uppercase text-slate-400">Liquidez</p><div class="text-4xl font-black">2.1</div></div>
+                <div class="bg-white p-8 rounded-3xl border-t-4 border-green-600 text-center"><p class="text-[10px] font-black uppercase text-slate-400">Rentabilidad</p><div class="text-4xl font-black">15%</div></div>
+                <div class="bg-white p-8 rounded-3xl border-t-4 border-orange-600 text-center"><p class="text-[10px] font-black uppercase text-slate-400">Solvencia</p><div class="text-4xl font-black">1.8</div></div>
+            `;
+      }
+
+      function getSaldosMap() {
+        const map = {};
+        APP_DATA.asientos.forEach((a) =>
+          a.lineas.forEach((l) => {
+            if (!map[l.c]) map[l.c] = { d: 0, h: 0, sD: 0, sA: 0 };
+            map[l.c].d += l.d;
+            map[l.c].h += l.h;
+          }),
+        );
+        Object.keys(map).forEach((c) => {
+          const diff = map[c].d - map[c].h;
+          if (diff > 0) map[c].sD = diff;
+          else map[c].sA = Math.abs(diff);
+        });
+        return map;
+      }
+
+      window.onload = () => {
+        renderDiario();
+        lucide.createIcons();
+      };
+    </script>
+  </body>
+</html>

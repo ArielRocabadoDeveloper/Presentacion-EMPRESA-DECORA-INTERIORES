@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Presupuestos | DECORA INTERIORES</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=IBM+Plex+Serif:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --navy: #0a1f33; /* Azul profundo */
+        --slate: #2d3748; /* Gris carbón */
+        --mist: #f8fafc; /* Blanco casi puro */
+        --text: #1a202c;
+        --gray: #e2e8f0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        color: var(--text);
+        background-color: var(--mist);
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+      }
+
+      h1 {
+        font-family: "IBM Plex Serif", serif;
+        font-weight: 500;
+        color: var(--navy);
+        margin-bottom: 3rem;
+        text-align: center;
+      }
+
+      .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        max-width: 1200px;
+      }
+
+      .card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        padding: 2.5rem 2rem;
+        width: 280px;
+        text-align: center;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        border: 1px solid var(--gray);
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .card h2 {
+        font-family: "IBM Plex Serif", serif;
+        font-size: 1.4rem;
+        color: var(--navy);
+        margin-bottom: 1rem;
+      }
+
+      .card p {
+        color: var(--slate);
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+      }
+
+      .card-link {
+        display: inline-block;
+        background-color: var(--navy);
+        color: white;
+        text-decoration: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 4px;
+        font-weight: 500;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+      }
+
+      .card-link:hover {
+        background-color: #081a2a; /* Un tono más oscuro */
+      }
+
+      footer {
+        margin-top: 4rem;
+        color: var(--slate);
+        font-size: 0.9rem;
+        text-align: center;
+        width: 100%;
+      }
+
+      @media (max-width: 768px) {
+        .cards-container {
+          flex-direction: column;
+          align-items: center;
+        }
+        h1 {
+          font-size: 1.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Presentacion</h1>
+
+    <div class="cards-container">
+      <div class="card">
+        <h2>Presentacion</h2>
+
+        <a href="presentacion.html" class="card-link" target="_blank"
+          >Ver Presentacion</a
+        >
+      </div>
+
+      <div class="card">
+        <h2>Web</h2>
+        <a
+          href="https://effulgent-souffle-cee65e.netlify.app/"
+          class="card-link"
+          target="_blank"
+          >Ver Pagina Web</a
+        >
+      </div>
+    </div>
+    <h1>Prototipos</h1>
+
+    <div class="cards-container">
+      <div class="card">
+        <h2>Contabilidad</h2>
+
+        <a href="contable.html" class="card-link" target="_blank">Ver </a>
+      </div>
+
+      <div class="card">
+        <h2>Almacen</h2>
+        <a href="almacen.html" class="card-link" target="_blank">Ver </a>
+      </div>
+
+      <div class="card">
+        <h2>Producción</h2>
+        <a href="produccion.html" class="card-link" target="_blank">Ver </a>
+      </div>
+      <div class="card">
+        <h2>Instalación</h2>
+        <a href="instalacion.html" class="card-link" target="_blank">Ver </a>
+      </div>
+    </div>
+
+    <h1>Presupuestos del Proyecto</h1>
+
+    <div class="cards-container">
+      <div class="card">
+        <h2>Cotización #1</h2>
+        <p>Sistema Web con Hosting a la medida</p>
+
+        <a href="cot1.html" class="card-link" target="_blank">Ver Cotización</a>
+      </div>
+
+      <div class="card">
+        <h2>Cotización #2</h2>
+        <p>Sistema Local con Conexión QR</p>
+        <a href="cot2.html" class="card-link" target="_blank">Ver Cotización</a>
+      </div>
+
+      <div class="card">
+        <h2>Cotización #3</h2>
+        <p>Sistema Local (Red LAN) o WIFI - SIN Hosting</p>
+        <a href="cot3.html" class="card-link" target="_blank">Ver Cotización</a>
+      </div>
+    </div>
+
+    <footer>
+      <p>
+        PARA LA EMPRESA DECORA INTERIORES <br />
+        Desarrollado por Ariel Franco Rocabado Ramos - AndesCode
+      </p>
+    </footer>
+  </body>
+</html>

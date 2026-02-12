@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DECORA INTERIORES | Portafolio Profesional</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      :root {
+        --primary: #b08d57; /* Dorado sofisticado */
+        --dark: #1a1a1a;
+        --white: #ffffff;
+        --glass: rgba(255, 255, 255, 0.9);
+        --transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+      }
+
+      body {
+        background-color: #f8f8f8;
+        color: var(--dark);
+        overflow-x: hidden;
+      }
+
+      /* Hero Section */
+      header {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--dark);
+        color: var(--white);
+        text-align: center;
+        padding: 20px;
+        position: relative;
+      }
+
+      header h1 {
+        font-size: clamp(2rem, 8vw, 4rem);
+        font-weight: 200;
+        letter-spacing: 12px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        animation: fadeInDown 1.2s ease-out;
+      }
+
+      .subtitle {
+        font-size: 1.1rem;
+        letter-spacing: 4px;
+        color: var(--primary);
+        text-transform: uppercase;
+        margin-bottom: 40px;
+        animation: fadeInUp 1.2s ease-out;
+      }
+
+      .scroll-indicator {
+        position: absolute;
+        bottom: 30px;
+        animation: bounce 2s infinite;
+      }
+
+      /* Portfolio Slider */
+      .viewer-section {
+        padding: 100px 20px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .main-display {
+        position: relative;
+        background: var(--white);
+        border-radius: 4px;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+        aspect-ratio: 16 / 9;
+        margin-bottom: 40px;
+      }
+
+      .slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transform: scale(1.05);
+        transition: var(--transition);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .slide.active {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #fff;
+      }
+
+      /* Custom Nav */
+      .nav-control {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--glass);
+        border: none;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--dark);
+        transition: var(--transition);
+        z-index: 10;
+      }
+
+      .nav-control:hover {
+        background: var(--primary);
+        color: white;
+      }
+
+      .btn-prev {
+        left: 30px;
+      }
+      .btn-next {
+        right: 30px;
+      }
+
+      /* Thumbnails Strip */
+      .strip-container {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        padding: 20px 0;
+        scroll-behavior: smooth;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .strip-container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .thumb-item {
+        min-width: 160px;
+        aspect-ratio: 16 / 9;
+        cursor: pointer;
+        position: relative;
+        border-radius: 2px;
+        overflow: hidden;
+        opacity: 0.5;
+        transition: var(--transition);
+        border: 1px solid transparent;
+      }
+
+      .thumb-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .thumb-item.active {
+        opacity: 1;
+        border-color: var(--primary);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .thumb-item:hover {
+        opacity: 0.9;
+      }
+
+      /* Footer */
+      footer {
+        background: var(--dark);
+        color: #888;
+        padding: 60px 20px;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+
+      footer p {
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+      }
+
+      /* Animations */
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .main-display {
+          aspect-ratio: 4 / 3;
+        }
+        .nav-control {
+          width: 45px;
+          height: 45px;
+        }
+        .btn-prev {
+          left: 10px;
+        }
+        .btn-next {
+          right: 10px;
+        }
+        .thumb-item {
+          min-width: 100px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>DECORA INTERIORES</h1>
+      <div class="subtitle">
+        PRESENTACION <br />
+        Desarrollado por <br />
+        Ariel F. Rocabado Ramos
+      </div>
+      <div class="scroll-indicator">
+        <i data-lucide="chevron-down" size="32" color="#b08d57"></i>
+      </div>
+    </header>
+
+    <section class="viewer-section">
+      <div class="main-display" id="swipeArea">
+        <button class="nav-control btn-prev" onclick="changeSlide(-1)">
+          <i data-lucide="arrow-left"></i>
+        </button>
+
+        <div id="slidesContainer">
+          <!-- Dagiti diapositiva ket aggapu iti folders mo -->
+          <div class="slide active">
+            <img src="image/1.png" alt="Diseño 1" />
+          </div>
+          <div class="slide"><img src="image/2.png" alt="Diseño 2" /></div>
+          <div class="slide"><img src="image/3.png" alt="Diseño 3" /></div>
+          <div class="slide"><img src="image/4.png" alt="Diseño 4" /></div>
+          <div class="slide"><img src="image/5.png" alt="Diseño 5" /></div>
+          <div class="slide"><img src="image/6.png" alt="Diseño 6" /></div>
+          <div class="slide"><img src="image/7.png" alt="Diseño 8" /></div>
+        </div>
+
+        <button class="nav-control btn-next" onclick="changeSlide(1)">
+          <i data-lucide="arrow-right"></i>
+        </button>
+      </div>
+
+      <div class="strip-container" id="thumbStrip">
+        <!-- Dagiti thumbnails ket ma-generate ditoy -->
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        &copy; 2026 DECORA INTERIORES. <br />Desarrollado por Ariel F. Rocabado
+        Ramos - AndesCode
+      </p>
+      <div style="display: flex; justify-content: center; gap: 20px">
+        <i data-lucide="instagram" size="20"></i>
+        <i data-lucide="facebook" size="20"></i>
+        <i data-lucide="mail" size="20"></i>
+      </div>
+    </footer>
+
+    <script>
+      // Init Icons
+      lucide.createIcons();
+
+      let currentIndex = 0;
+      const slides = document.querySelectorAll(".slide");
+      const total = slides.length;
+      const thumbStrip = document.getElementById("thumbStrip");
+
+      // Generate Thumbnails
+      slides.forEach((_, i) => {
+        const thumb = document.createElement("div");
+        thumb.className = `thumb-item ${i === 0 ? "active" : ""}`;
+        thumb.innerHTML = `<img src="image/${i + 1}.png" alt="Miniatura ${i + 1}" onerror="this.src='https://via.placeholder.com/160x90?text=Slide+${i + 1}'">`;
+        thumb.onclick = () => goToSlide(i);
+        thumbStrip.appendChild(thumb);
+      });
+
+      const thumbs = document.querySelectorAll(".thumb-item");
+
+      function updateDisplay() {
+        slides.forEach((s, i) => {
+          s.classList.toggle("active", i === currentIndex);
+          thumbs[i].classList.toggle("active", i === currentIndex);
+        });
+
+        // Scroll thumb into view
+        thumbs[currentIndex].scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
+      }
+
+      function changeSlide(step) {
+        currentIndex = (currentIndex + step + total) % total;
+        updateDisplay();
+      }
+
+      function goToSlide(index) {
+        currentIndex = index;
+        updateDisplay();
+      }
+
+      // Keyboard navigation
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") changeSlide(1);
+        if (e.key === "ArrowLeft") changeSlide(-1);
+      });
+
+      // Touch Swipe
+      let startX = 0;
+      const area = document.getElementById("swipeArea");
+
+      area.addEventListener(
+        "touchstart",
+        (e) => (startX = e.touches[0].clientX),
+      );
+      area.addEventListener("touchend", (e) => {
+        const endX = e.changedTouches[0].clientX;
+        if (startX - endX > 50) changeSlide(1);
+        if (endX - startX > 50) changeSlide(-1);
+      });
+    </script>
+  </body>
+</html>

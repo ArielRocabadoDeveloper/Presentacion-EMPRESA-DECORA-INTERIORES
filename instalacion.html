@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DECORA - Gestión de Instalaciones</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.0/lucide.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap");
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #f1f5f9;
+      }
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+        animation: slideUp 0.3s ease-out;
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .card-service {
+        transition: all 0.2s;
+        border-left: 4px solid transparent;
+      }
+      .card-service:hover {
+        transform: translateX(5px);
+        border-left-color: #facc15;
+      }
+      .status-pill {
+        font-size: 0.65rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        padding: 2px 8px;
+        border-radius: 9999px;
+      }
+    </style>
+  </head>
+  <body class="flex h-screen overflow-hidden text-slate-900">
+    <!-- SIDEBAR LOGÍSTICA -->
+    <aside class="w-72 bg-slate-900 text-slate-300 flex flex-col shrink-0">
+      <div class="p-6 border-b border-slate-800 flex items-center gap-3">
+        <div
+          class="w-10 h-10 bg-yellow-400 rounded-lg flex items-center justify-center text-slate-900 shadow-lg shadow-yellow-400/20"
+        >
+          <i data-lucide="truck"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-white text-lg leading-none">DECORA</h1>
+          <p
+            class="text-[10px] text-yellow-400 font-bold uppercase tracking-widest mt-1"
+          >
+            Área de Instalación
+          </p>
+        </div>
+      </div>
+
+      <nav class="flex-1 p-4 space-y-2">
+        <button
+          onclick="showTab('agenda')"
+          class="nav-btn active w-full flex items-center gap-3 p-3 rounded-xl transition text-sm font-semibold hover:bg-slate-800"
+        >
+          <i data-lucide="calendar" class="w-5"></i> Agenda Diaria
+        </button>
+        <button
+          onclick="showTab('costos')"
+          class="nav-btn w-full flex items-center gap-3 p-3 rounded-xl transition text-sm font-semibold hover:bg-slate-800"
+        >
+          <i data-lucide="calculator" class="w-5"></i> Cotizador de Servicio
+        </button>
+        <button
+          onclick="showTab('tecnicos')"
+          class="nav-btn w-full flex items-center gap-3 p-3 rounded-xl transition text-sm font-semibold hover:bg-slate-800"
+        >
+          <i data-lucide="wrench" class="w-5"></i> Equipo Técnico
+        </button>
+        <button
+          onclick="showTab('inventario')"
+          class="nav-btn w-full flex items-center gap-3 p-3 rounded-xl transition text-sm font-semibold hover:bg-slate-800"
+        >
+          <i data-lucide="box" class="w-5"></i> Maletín de Herramientas
+        </button>
+      </nav>
+
+      <div
+        class="p-6 bg-slate-950/50 mt-auto m-4 rounded-2xl border border-slate-800"
+      >
+        <p class="text-[10px] text-yellow-400 font-bold uppercase mb-2">
+          Vehículo en Ruta
+        </p>
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-white">Camioneta 1 (LPZ-452)</span>
+          <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 flex flex-col overflow-hidden">
+      <header
+        class="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between"
+      >
+        <h2 id="tab-title" class="text-xl font-bold">
+          Agenda de Instalaciones
+        </h2>
+        <div class="flex items-center gap-4">
+          <div
+            class="bg-slate-100 rounded-full px-4 py-2 flex items-center gap-2"
+          >
+            <i data-lucide="map-pin" class="w-4 text-red-500"></i>
+            <span class="text-xs font-bold text-slate-600"
+              >Sede Central - La Paz</span
+            >
+          </div>
+        </div>
+      </header>
+
+      <div class="flex-1 overflow-y-auto p-8">
+        <!-- COTIZADOR DE SERVICIO DE INSTALACIÓN -->
+        <section id="costos" class="tab-content">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div
+              class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200"
+            >
+              <h3 class="font-bold mb-6 flex items-center gap-2">
+                <i data-lucide="coins" class="text-yellow-500"></i> Cálculo de
+                Viáticos e Instalación
+              </h3>
+              <div class="space-y-6">
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      class="text-[10px] font-bold text-slate-400 uppercase"
+                      >Cantidad de Puntos</label
+                    >
+                    <input
+                      type="number"
+                      id="pts-inst"
+                      value="3"
+                      oninput="calcInstalacion()"
+                      class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-yellow-400"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      class="text-[10px] font-bold text-slate-400 uppercase"
+                      >Zona / Distancia</label
+                    >
+                    <select
+                      id="zona-inst"
+                      onchange="calcInstalacion()"
+                      class="w-full p-3 bg-slate-50 border rounded-xl outline-none"
+                    >
+                      <option value="50">Radio Urbano (Bs. 50)</option>
+                      <option value="120">Periferia / El Alto (Bs. 120)</option>
+                      <option value="350">Provincia / Viaje (Bs. 350+)</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label class="text-[10px] font-bold text-slate-400 uppercase"
+                    >Tipo de Superficie</label
+                  >
+                  <div class="grid grid-cols-3 gap-2 mt-2">
+                    <button
+                      class="p-2 border rounded-lg text-xs font-bold hover:bg-yellow-50 active:bg-yellow-100"
+                    >
+                      Hormigón
+                    </button>
+                    <button
+                      class="p-2 border rounded-lg text-xs font-bold hover:bg-yellow-50"
+                    >
+                      Durlock
+                    </button>
+                    <button
+                      class="p-2 border rounded-lg text-xs font-bold hover:bg-yellow-50"
+                    >
+                      Madera
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="bg-slate-900 rounded-3xl p-8 text-white flex flex-col justify-between"
+            >
+              <div>
+                <p
+                  class="text-yellow-400 text-[10px] font-bold uppercase tracking-widest mb-2"
+                >
+                  Total a Cobrar por Servicio
+                </p>
+                <h2 id="total-inst" class="text-5xl font-black">Bs. 0.00</h2>
+                <div class="mt-8 space-y-3">
+                  <div class="flex justify-between text-sm text-slate-400">
+                    <span>Mano de Obra (Técnica)</span>
+                    <span id="det-mo" class="text-white font-bold"
+                      >Bs. 0.00</span
+                    >
+                  </div>
+                  <div class="flex justify-between text-sm text-slate-400">
+                    <span>Transporte y Logística</span>
+                    <span id="det-tr" class="text-white font-bold"
+                      >Bs. 0.00</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <button
+                class="w-full bg-yellow-400 text-slate-900 font-bold py-4 rounded-xl mt-8 hover:bg-yellow-300 transition shadow-lg shadow-yellow-400/20"
+              >
+                Generar Orden de Trabajo
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- AGENDA DIARIA -->
+        <section id="agenda" class="tab-content active">
+          <div class="space-y-4">
+            <!-- Tarjetas de Instalación -->
+            <div id="lista-agenda">
+              <!-- JS Dynamic -->
+            </div>
+          </div>
+        </section>
+
+        <!-- EQUIPO TÉCNICO -->
+        <section id="tecnicos" class="tab-content">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="equipo-list">
+            <!-- JS Dynamic -->
+          </div>
+        </section>
+
+        <!-- INVENTARIO HERRAMIENTAS -->
+        <section id="inventario" class="tab-content">
+          <div class="bg-white rounded-3xl p-8 shadow-sm">
+            <h3 class="font-bold mb-6">Estado del Maletín de Instalación</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="tools-grid">
+              <!-- JS Dynamic -->
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const INSTALACION_DATA = {
+        agenda: [
+          {
+            id: "INST-501",
+            cliente: "Ana María Vaca",
+            hora: "09:00",
+            zona: "Equipetrol",
+            puntos: 5,
+            status: "En Proceso",
+            tecnico: "Carlos M.",
+            color: "yellow",
+          },
+          {
+            id: "INST-502",
+            cliente: "Bcp Oficina Central",
+            hora: "11:30",
+            zona: "Centro",
+            puntos: 12,
+            status: "Pendiente",
+            tecnico: "Luis P.",
+            color: "slate",
+          },
+          {
+            id: "INST-503",
+            cliente: "Arq. Jorge Siles",
+            hora: "15:00",
+            zona: "Achumani",
+            puntos: 3,
+            status: "Confirmado",
+            tecnico: "Carlos M.",
+            color: "green",
+          },
+        ],
+        tecnicos: [
+          {
+            nombre: "Carlos Mercado",
+            cargo: "Instalador Senior",
+            exp: "8 años",
+            estado: "En ruta",
+            avatar: "CM",
+          },
+          {
+            nombre: "Luis Pardo",
+            cargo: "Instalador Junior",
+            exp: "2 años",
+            estado: "Disponible",
+            avatar: "LP",
+          },
+          {
+            nombre: "Miguel Rojas",
+            cargo: "Ayudante",
+            exp: "1 año",
+            estado: "En almacén",
+            avatar: "MR",
+          },
+        ],
+        herramientas: [
+          { item: "Taladro Percutor", estado: "Ok", icono: "drill" },
+          { item: "Nivel Láser", estado: "Batería Baja", icono: "box" },
+          { item: "Escalera Pro", estado: "Ok", icono: "layers" },
+          { item: "Caja de Tacos/Pijas", estado: "Reponer", icono: "archive" },
+        ],
+      };
+
+      function showTab(id) {
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((t) => t.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        event.currentTarget.classList.add("active");
+
+        const titles = {
+          agenda: "Agenda de Instalaciones",
+          costos: "Cotizador de Servicio",
+          tecnicos: "Equipo de Campo",
+          inventario: "Herramientas y Consumibles",
+        };
+        document.getElementById("tab-title").innerText = titles[id];
+      }
+
+      function calcInstalacion() {
+        const pts = parseInt(document.getElementById("pts-inst").value) || 0;
+        const zona = parseFloat(document.getElementById("zona-inst").value);
+
+        // Lógica: 45 Bs por punto instalado + transporte
+        const costoMO = pts * 45;
+        const total = costoMO + zona;
+
+        document.getElementById("total-inst").innerText =
+          `Bs. ${total.toFixed(2)}`;
+        document.getElementById("det-mo").innerText =
+          `Bs. ${costoMO.toFixed(2)}`;
+        document.getElementById("det-tr").innerText = `Bs. ${zona.toFixed(2)}`;
+      }
+
+      function renderInstalacion() {
+        // Agenda
+        document.getElementById("lista-agenda").innerHTML =
+          INSTALACION_DATA.agenda
+            .map(
+              (a) => `
+                <div class="bg-white p-6 rounded-2xl shadow-sm mb-4 card-service border border-slate-100 flex items-center justify-between">
+                    <div class="flex items-center gap-6">
+                        <div class="text-center bg-slate-50 p-3 rounded-xl min-w-[80px]">
+                            <p class="text-[10px] font-black text-slate-400 uppercase">Hora</p>
+                            <p class="font-bold text-slate-900">${a.hora}</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">${a.cliente}</h4>
+                            <div class="flex items-center gap-4 mt-1">
+                                <span class="flex items-center gap-1 text-xs text-slate-500 font-medium"><i data-lucide="map-pin" class="w-3"></i> ${a.zona}</span>
+                                <span class="flex items-center gap-1 text-xs text-slate-500 font-medium"><i data-lucide="layers" class="w-3"></i> ${a.puntos} puntos</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-8">
+                        <div class="text-right">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase">Asignado a</p>
+                            <p class="text-xs font-bold text-slate-700">${a.tecnico}</p>
+                        </div>
+                        <span class="status-pill bg-${a.color}-100 text-${a.color}-700">${a.status}</span>
+                        <button class="p-2 hover:bg-slate-100 rounded-lg"><i data-lucide="chevron-right" class="w-5 text-slate-400"></i></button>
+                    </div>
+                </div>
+            `,
+            )
+            .join("");
+
+        // Técnicos
+        document.getElementById("equipo-list").innerHTML =
+          INSTALACION_DATA.tecnicos
+            .map(
+              (t) => `
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 text-center">
+                    <div class="w-16 h-16 bg-slate-900 text-yellow-400 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-4">${t.avatar}</div>
+                    <h4 class="font-bold">${t.nombre}</h4>
+                    <p class="text-xs text-slate-500 mb-4">${t.cargo}</p>
+                    <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">Estado</span>
+                        <span class="text-[10px] font-bold text-green-600 uppercase">${t.estado}</span>
+                    </div>
+                </div>
+            `,
+            )
+            .join("");
+
+        // Herramientas
+        document.getElementById("tools-grid").innerHTML =
+          INSTALACION_DATA.herramientas
+            .map(
+              (h) => `
+                <div class="p-4 border border-slate-100 rounded-2xl text-center">
+                    <div class="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <i data-lucide="shield-check" class="w-5 text-slate-400"></i>
+                    </div>
+                    <p class="text-xs font-bold">${h.item}</p>
+                    <p class="text-[9px] font-black uppercase mt-1 ${h.estado === "Ok" ? "text-green-500" : "text-orange-500"}">${h.estado}</p>
+                </div>
+            `,
+            )
+            .join("");
+
+        lucide.createIcons();
+        calcInstalacion();
+      }
+
+      window.onload = renderInstalacion;
+    </script>
+  </body>
+</html>
